@@ -73,6 +73,8 @@
         </div>
     </div>
 
+    <div id="tooltip" style="position: absolute; opacity: 0;"></div>
+
     <!-- 引入 D3.js 库 -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
@@ -89,6 +91,8 @@
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const tooltip = d3.select("#tooltip");
 
         // 从 CSV 文件加载数据
         d3.csv("/CSV_data/出生人數.csv").then(data => {
@@ -147,7 +151,20 @@
                 .attr("x", d => x(d.name))
                 .attr("y", d => y(d.value))
                 .attr("width", x.bandwidth())
-                .attr("height", d => height - y(d.value));
+                .attr("height", d => height - y(d.value))
+                .on("mouseover", (event, d) => {
+                    tooltip.transition().duration(200).style("opacity", .9);
+                    tooltip.html(`Year: ${d.name}<br>Persons: ${d.value}`)
+                        .style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mousemove", (event, d) => {
+                    tooltip.style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", () => {
+                    tooltip.transition().duration(500).style("opacity", 0);
+                });
         }).catch(error => {
             console.error('Error loading the CSV file:', error);
         });

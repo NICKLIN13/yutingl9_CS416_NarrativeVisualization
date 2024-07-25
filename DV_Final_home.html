@@ -160,6 +160,10 @@
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
+                .on("mousemove", (event, d) => {
+                    tooltip.style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
                 .on("mouseout", () => {
                     tooltip.transition().duration(500).style("opacity", 0);
                 });
@@ -235,6 +239,10 @@
                     tooltip2.transition().duration(200).style("opacity", .9);
                     tooltip2.html(`Year: ${d.name}<br>TWD: ${d.value}`)
                         .style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mousemove", (event, d) => {
+                    tooltip2.style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
                 .on("mouseout", () => {
