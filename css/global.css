@@ -1,0 +1,13 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+
+
+body {
+    /* Margin bottom by footer height */
+    font-family: Georgia, "Times New Roman", Times, serif;
+    margin-bottom: 60px;
+    font-size: 16px;
+}
