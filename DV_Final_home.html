@@ -31,7 +31,7 @@
 
 <body style="padding-top: 70px">
     <nav class="navbar navbar-light bg-light fixed-top">
-        <div class="container">
+        <div class="container style="padding-bottom: 10px;">
             <a class="navbar-brand" href="#">CS416 - Final Project</a>
             <a class="navbar-brand" href="DV_Final_home.html">Scene0</a>
             <a class="navbar-brand" href="DV_Final_Scene1.html">Scene1</a>
@@ -62,12 +62,19 @@
     </nav>
 
     <div class="container">
-        <h1>Average Annual Income in Taiwan</h1>
-        <div id="chart"></div>
-    </div>
-    <div class="container">
-        <h1>每戶可支配所得</h1>
-        <div id="chart2"></div>
+        <div class="header-with-border">
+            <h1>Income, Investment preferences and Birth rate in Taiwan</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4 style="text-align: center;">Individual Average Income (Annual)</h4>
+                <div id="chart"></div>
+            </div>
+            <div class="col-md-6">
+                <h4 style="text-align: center;">Household Disposable Average Income (Annual)</h4>
+                <div id="chart2"></div>
+            </div>
+        </div>
     </div>
 
     <!-- 引入 D3.js 库 -->
@@ -75,7 +82,7 @@
 
     <script>
         // 设置图表的尺寸
-        const margin = { top: 20, right: 30, bottom: 40, left: 80 };
+        const margin = { top: 20, right: 60, bottom: 40, left: 80 };
         const width = 700 - margin.left - margin.right;
         const height = 400 - margin.top - margin.bottom;
 
@@ -111,10 +118,27 @@
                 .attr("transform", `translate(0,${height})`)
                 .call(d3.axisBottom(x));
 
+            // x 軸標籤
+            svg.append("text")
+                .attr("class", "axis-label")
+                .attr("x", width / 2)
+                .attr("y", height + margin.bottom)  // 增加與 y 轴的距離
+                .attr("text-anchor", "middle")
+                .text("Year");
+
             // 添加 y 轴
             svg.append("g")
                 .attr("class", "y-axis")
                 .call(d3.axisLeft(y));
+
+            // y 軸標籤
+            svg.append("text")
+                .attr("class", "axis-label")
+                .attr("x", -height / 2)
+                .attr("y", -margin.left + 20)  // 增加與 y 轴的距離
+                .attr("transform", "rotate(-90)")
+                .attr("text-anchor", "middle")
+                .text("TWD");
 
             // 绘制柱状图
             svg.selectAll(".bar")
@@ -131,7 +155,7 @@
 
 
         // 第二張圖表
-        const margin2 = { top: 20, right: 30, bottom: 40, left: 80 };
+        const margin2 = { top: 20, right: 30, bottom: 40, left: 110 };
         const width2 = 700 - margin2.left - margin2.right;
         const height2 = 400 - margin2.top - margin2.bottom;
 
@@ -162,9 +186,26 @@
                 .attr("transform", `translate(0,${height2})`)
                 .call(d3.axisBottom(x2));
 
+            // x 軸標籤
+            svg2.append("text")
+                .attr("class", "axis-label")
+                .attr("x", width2 / 2)
+                .attr("y", height2 + margin2.bottom)  // 增加與 y 轴的距離
+                .attr("text-anchor", "middle")
+                .text("Year");
+
             svg2.append("g")
                 .attr("class", "y-axis")
                 .call(d3.axisLeft(y2));
+
+            // y 軸標籤
+            svg2.append("text")
+                .attr("class", "axis-label")
+                .attr("x", -height2 / 2)
+                .attr("y", -margin2.left + 50)  // 增加與 y 轴的距離
+                .attr("transform", "rotate(-90)")
+                .attr("text-anchor", "middle")
+                .text("TWD");
 
             svg2.selectAll(".bar")
                 .data(data)
@@ -180,7 +221,7 @@
 
     </script>
 
-    <div class="container">
+    <div class="container mt-4">
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">

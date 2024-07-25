@@ -61,11 +61,17 @@
         </div>
     </nav>
 
-    <div class="project-topic">
-        <h1>How many Taiwanese students study abroad and where do they go?</h1>
+    <div class="container">
+        <div class="header-with-border">
+            <h1>Income, Investment preferences and Birth rate in Taiwan</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4 style="text-align: center;">高等教育升學率</h4>
+                <div id="chart"></div>
+            </div>
+        </div>
     </div>
-    <div id="chart"></div>
-    <div id="chart2"></div>
 
     <!-- 引入 D3.js 库 -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -85,7 +91,7 @@
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
         // 从 CSV 文件加载数据
-        d3.csv("/CSV_data/studyAbroadStatistics.csv").then(data => {
+        d3.csv("/CSV_data/高等教育升學率.csv").then(data => {
             // 转换数据类型
             data.forEach(d => {
                 d.value = +d.value;
@@ -108,10 +114,28 @@
                 .attr("transform", `translate(0,${height})`)
                 .call(d3.axisBottom(x));
 
+            // x 軸標籤
+            svg.append("text")
+                .attr("class", "axis-label")
+                .attr("x", width / 2)
+                .attr("y", height + margin.bottom)  // 增加與 y 轴的距離
+                .attr("text-anchor", "middle")
+                .text("Year");
+
             // 添加 y 轴
             svg.append("g")
                 .attr("class", "y-axis")
                 .call(d3.axisLeft(y));
+
+
+            // y 軸標籤
+            svg.append("text")
+                .attr("class", "axis-label")
+                .attr("x", -height / 2)
+                .attr("y", -margin.left + 20)  // 增加與 y 轴的距離
+                .attr("transform", "rotate(-90)")
+                .attr("text-anchor", "middle")
+                .text("Persons");
 
             // 绘制柱状图
             svg.selectAll(".bar")
@@ -128,81 +152,97 @@
 
     </script>
 
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    About the Visualization, Home Page
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <div class="panel">
-                        <h3>Visualization Narrative</h3>
-                        <p class="lead">The project follows the <strong>Martini Glass</strong> narrative visualization
-                            structure.
-                            The <strong>Home page</strong> represents the base of the visualization structure. The user
-                            is being exposed
-                            to the author driven content and will be led through two additional scenes representing
-                            stem. The Scene3
-                            page is the "jumping off point" and leads user to the final page.
-                            Final page contains reader driven content and it allows users to draw their own conclusions.
-                        </p>
-                        <p class="lead">
-                            Each page/scence contains <strong>About the Visualization </strong> section at the bottom of
-                            the page.
-                            User can learn more about the user interface events, triggers, annotations and paramters for
-                            that particular page.
-                        </p>
-                        <h3>User Interface Events</h3>
-                        <p class="lead">The menu items in the navigation bar and the Prev, Next button
-                            at the bottom of this page enable the User Interface events.
-                            User interacts by clicking on the button or menu items to navigate to various part of this
-                            story.
-                            The mouse hover is another user interface event. The hover event allows proper positioning
-                            of the tooltip.
-                            As mouse moves from one bar to another, changes in X and Y position causes opacity to
-                            revert back to its original state in the previous bar and change in the new bar.
-                        </p>
-                        <h3>Annotations</h3>
-                        <p class="lead">The annotation is represented by the legend on the top-right of the chart and a
-                            tooltip when mouse is hovered over different bars in the chart.
-                            The legend and labels along the X and Y axis provides additional annotations for the chart.
-                        </p>
-                        <h3>Triggers</h3>
-                        <p class="lead">The mouse click acts as a trigger event for navigation.
-                            The mouse hover (mouseover) event is a trigger for the tooltip in the bar chart.
-                            The highlighted items in the navigation bar and colored buttons with
-                            icons provide visual clues about the user actions triggers to the user.
-                        </p>
-                        <p class="lead">
-                            User can expand the <strong>About the Visualization </strong> section by clicking on the +
-                            icon. Once the section is expanded,
-                            the + icon changes to - icon. User can click the - icon to collapse the section.
-                        </p>
-                        <h3>Parameters</h3>
-                        <p class="lead">This section is hyper linked to the next section. The name of the target section
-                            is passed
-                            as an input paramter to the buttons and items in the navigation bar.
-                        </p>
+    <div class="container mt-4">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        About the Visualization, Home Page
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="panel">
+                            <h3>Visualization Narrative</h3>
+                            <p class="lead">The project follows the <strong>Martini Glass</strong> narrative
+                                visualization
+                                structure.
+                                The <strong>Home page</strong> represents the base of the visualization structure. The
+                                user
+                                is being exposed
+                                to the author driven content and will be led through two additional scenes representing
+                                stem. The Scene3
+                                page is the "jumping off point" and leads user to the final page.
+                                Final page contains reader driven content and it allows users to draw their own
+                                conclusions.
+                            </p>
+                            <p class="lead">
+                                Each page/scence contains <strong>About the Visualization </strong> section at the
+                                bottom of
+                                the page.
+                                User can learn more about the user interface events, triggers, annotations and paramters
+                                for
+                                that particular page.
+                            </p>
+                            <h3>User Interface Events</h3>
+                            <p class="lead">The menu items in the navigation bar and the Prev, Next button
+                                at the bottom of this page enable the User Interface events.
+                                User interacts by clicking on the button or menu items to navigate to various part of
+                                this
+                                story.
+                                The mouse hover is another user interface event. The hover event allows proper
+                                positioning
+                                of the tooltip.
+                                As mouse moves from one bar to another, changes in X and Y position causes opacity to
+                                revert back to its original state in the previous bar and change in the new bar.
+                            </p>
+                            <h3>Annotations</h3>
+                            <p class="lead">The annotation is represented by the legend on the top-right of the chart
+                                and a
+                                tooltip when mouse is hovered over different bars in the chart.
+                                The legend and labels along the X and Y axis provides additional annotations for the
+                                chart.
+                            </p>
+                            <h3>Triggers</h3>
+                            <p class="lead">The mouse click acts as a trigger event for navigation.
+                                The mouse hover (mouseover) event is a trigger for the tooltip in the bar chart.
+                                The highlighted items in the navigation bar and colored buttons with
+                                icons provide visual clues about the user actions triggers to the user.
+                            </p>
+                            <p class="lead">
+                                User can expand the <strong>About the Visualization </strong> section by clicking on the
+                                +
+                                icon. Once the section is expanded,
+                                the + icon changes to - icon. User can click the - icon to collapse the section.
+                            </p>
+                            <h3>Parameters</h3>
+                            <p class="lead">This section is hyper linked to the next section. The name of the target
+                                section
+                                is passed
+                                as an input paramter to the buttons and items in the navigation bar.
+                            </p>
 
-                        <p class="lead">The charts in this and next two scenes are rendered through Vega library. Vega
-                            is a declarative language and entire chart including data is defined as a JSON object.
-                            The data for the chart is passed as a JSON object to
-                            Vega API function for rendering axis,bars and tooltips for the chart. The JSON object is
-                            stored seperately in the <strong>overallpoverty.json</strong>
-                            file under data folder.
-                        </p>
-                        <strong>Note </strong>This website is compatible with Chrome, Safari and Firefox browsers. This
-                        site was not tested on Internet Explorer.
-                        If you are on Windows, please use a Chrome or Firefox browser.
+                            <p class="lead">The charts in this and next two scenes are rendered through Vega library.
+                                Vega
+                                is a declarative language and entire chart including data is defined as a JSON object.
+                                The data for the chart is passed as a JSON object to
+                                Vega API function for rendering axis,bars and tooltips for the chart. The JSON object is
+                                stored seperately in the <strong>overallpoverty.json</strong>
+                                file under data folder.
+                            </p>
+                            <strong>Note </strong>This website is compatible with Chrome, Safari and Firefox browsers.
+                            This
+                            site was not tested on Internet Explorer.
+                            If you are on Windows, please use a Chrome or Firefox browser.
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
