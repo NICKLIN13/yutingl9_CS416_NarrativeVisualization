@@ -67,7 +67,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h4 style="text-align: center;">結婚對數</h4>
+                <h4 style="text-align: center;">每戶可支配所得</h4>
                 <div id="chart"></div>
             </div>
         </div>
@@ -92,10 +92,11 @@
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
+
         const tooltip = d3.select("#tooltip");
 
         // 从 CSV 文件加载数据
-        d3.csv("/CSV_data/結婚對數.csv").then(data => {
+        d3.csv("/CSV_data/每戶可支配所得.csv").then(data => {
             // 转换数据类型
             data.forEach(d => {
                 d.value = +d.value;
@@ -118,7 +119,6 @@
                 .attr("transform", `translate(0,${height})`)
                 .call(d3.axisBottom(x));
 
-
             // x 軸標籤
             svg.append("text")
                 .attr("class", "axis-label")
@@ -137,10 +137,10 @@
             svg.append("text")
                 .attr("class", "axis-label")
                 .attr("x", -height / 2)
-                .attr("y", -margin.left + 20)  // 增加與 y 轴的距離
+                .attr("y", -margin.left + 15)  // 增加與 y 轴的距離
                 .attr("transform", "rotate(-90)")
                 .attr("text-anchor", "middle")
-                .text("Pairs");
+                .text("TWD");
 
             // 绘制柱状图
             svg.selectAll(".bar")
@@ -153,7 +153,7 @@
                 .attr("height", d => height - y(d.value))
                 .on("mouseover", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", .9);
-                    tooltip.html(`Year: ${d.name}<br>Pairs: ${d.value}`)
+                    tooltip.html(`Year: ${d.name}<br>TWD: ${d.value}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
@@ -260,7 +260,6 @@
             </div>
         </div>
     </div>
-
 
 </body>
 

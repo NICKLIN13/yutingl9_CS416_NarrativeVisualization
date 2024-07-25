@@ -73,7 +73,7 @@
                 <div id="chart"></div>
             </div>
             <div class="col-md-6">
-                <h4 style="text-align: center;">Household Disposable Average Income (Annual)</h4>
+                <h4 style="text-align: center;">高等教育升學率</h4>
                 <div id="chart2"></div>
                 <p>雖然收入往上，但也因為高學歷的關係，更容易產生”不想被婚姻綁住，更不願意生小孩來降低生活品質“的這種想法</p>
             </div>
@@ -173,7 +173,7 @@
 
 
         // 第二張圖表
-        const margin2 = { top: 20, right: 30, bottom: 40, left: 110 };
+        const margin2 = { top: 20, right: 30, bottom: 40, left: 90 };
         const width2 = 700 - margin2.left - margin2.right;
         const height2 = 400 - margin2.top - margin2.bottom;
 
@@ -186,7 +186,7 @@
 
         const tooltip2 = d3.select("#tooltip");
 
-        d3.csv("/CSV_data/每戶可支配所得.csv").then(data => {
+        d3.csv("/CSV_data/高等教育升學率.csv").then(data => {
             data.forEach(d => {
                 d.value = +d.value;
             });
@@ -222,10 +222,10 @@
             svg2.append("text")
                 .attr("class", "axis-label")
                 .attr("x", -height2 / 2)
-                .attr("y", -margin2.left + 50)  // 增加與 y 轴的距離
+                .attr("y", -margin2.left + 45)  // 增加與 y 轴的距離
                 .attr("transform", "rotate(-90)")
                 .attr("text-anchor", "middle")
-                .text("TWD");
+                .text("Rate (%)");
 
             svg2.selectAll(".bar")
                 .data(data)
@@ -237,7 +237,7 @@
                 .attr("height", d => height2 - y2(d.value))
                 .on("mouseover", (event, d) => {
                     tooltip2.transition().duration(200).style("opacity", .9);
-                    tooltip2.html(`Year: ${d.name}<br>TWD: ${d.value}`)
+                    tooltip2.html(`Year: ${d.name}<br>Rate: ${d.value} %`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
