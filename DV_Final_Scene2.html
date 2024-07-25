@@ -142,6 +142,16 @@
                 .attr("text-anchor", "middle")
                 .text("TWD");
 
+            // 添加黑色虛線
+            svg.append("line")
+                .attr("x1", 0)
+                .attr("y1", y(1000000))
+                .attr("x2", width)
+                .attr("y2", y(1000000))
+                .attr("stroke", "black")
+                .attr("stroke-width", 2)
+                .attr("stroke-dasharray", "4");
+
             // 绘制柱状图
             svg.selectAll(".bar")
                 .data(data)
@@ -163,7 +173,11 @@
                 })
                 .on("mouseout", () => {
                     tooltip.transition().duration(500).style("opacity", 0);
-                });
+                })
+
+            // 確保柱狀圖不會覆蓋掉虛線
+            svg.selectAll(".bar").lower();
+
         }).catch(error => {
             console.error('Error loading the CSV file:', error);
         });
@@ -265,7 +279,8 @@
             <p class="text-muted"></p>
             <strong>Author <a href="https://www.linkedin.com/in/yuting-nick-lin/" target="_blank">YuTing
                     Lin</a></strong>
-            <br><p>©️All rights reserved</p>
+            <br>
+            <p>©️All rights reserved</p>
         </div>
     </footer>
 
