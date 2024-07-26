@@ -16,11 +16,19 @@
     <title>CS416 Final Project</title>
     <style>
         .bar {
-            fill: steelblue;
+            fill: rgba(145, 119, 86, 0.867);
         }
 
         .bar:hover {
-            fill: orange;
+            fill: rgba(161, 133, 94, 0.653);
+        }
+
+        .bar_green {
+            fill: rgba(11, 144, 11, 0.801);
+        }
+
+        .bar_green:hover {
+            fill: rgba(5, 189, 5, 0.592);
         }
 
         .axis-label {
@@ -33,10 +41,10 @@
     <nav class="navbar navbar-light bg-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">CS416 - Final Project</a>
-            <a class="navbar-brand" href="DV_Final_home.html">Scene0</a>
-            <a class="navbar-brand" href="DV_Final_Scene1.html">Scene1</a>
-            <a class="navbar-brand" href="DV_Final_Scene2.html">Scene2</a>
-            <a class="navbar-brand" href="DV_Final_Scene3.html">Scene3</a>
+            <a class="navbar-brand" id="scene0" href="DV_Final_home.html">Scene0</a>
+            <a class="navbar-brand" id="scene1" href="DV_Final_Scene1.html">Scene1</a>
+            <a class="navbar-brand" id="scene2" href="DV_Final_Scene2.html">Scene2</a>
+            <a class="navbar-brand" id="scene3" href="DV_Final_Scene3.html">Scene3</a>
 
             <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -161,6 +169,7 @@
                 .attr("y", d => y(d.value))
                 .attr("width", x.bandwidth())
                 .attr("height", d => height - y(d.value))
+                .attr("class", d => d.value > 1000000 ? "bar_green" : "bar")
                 .on("mouseover", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", .9);
                     tooltip.html(`Year: ${d.name}<br>TWD: ${d.value}`)
@@ -180,6 +189,23 @@
 
         }).catch(error => {
             console.error('Error loading the CSV file:', error);
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // 檢查目前頁面的 URL
+            const currentUrl = window.location.href;
+
+            // 拿到所有navbar的連結
+            const navLinks = document.querySelectorAll('.navbar-brand');
+
+            // 遍歷navbar，找到當前的，並把他改成active的css
+            navLinks.forEach(link => {
+                if (currentUrl.includes(link.getAttribute('href'))) {
+                    link.classList.add('active');
+                }
+            });
         });
 
     </script>
