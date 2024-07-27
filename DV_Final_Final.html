@@ -89,7 +89,7 @@
 
     <div class="container">
         <div class="header-with-border">
-            <h1>Fertility Data Line Chart</h1>
+            <h1>Worldwide Fertility Rate Data Line Chart</h1>
         </div>
         <label for="country-select">Select Country:</label>
         <select id="country-select">
@@ -112,7 +112,7 @@
         // 創建 SVG 畫布
         const svg = d3.select("svg")
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("height", height + margin.top + margin.bottom + 20)
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -178,6 +178,16 @@
                     .style("text-anchor", "end")
                     .text("Year");
 
+
+                // x 軸標籤
+                svg.append("text")
+                    .attr("class", "axis-label")
+                    .attr("x", width / 2)
+                    .attr("y", height + margin.bottom + 10)  // 增加與 x 轴的距離
+                    .attr("text-anchor", "middle")
+                    .text("Year");
+
+
                 svg.append("g")
                     .attr("class", "y-axis axis")
                     .call(d3.axisLeft(y))
@@ -188,6 +198,15 @@
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
                     .text("Fertility");
+
+                // y 軸標籤
+                svg.append("text")
+                    .attr("class", "axis-label")
+                    .attr("x", -height / 2)
+                    .attr("y", -margin.left + 250)  // 增加與 y 轴的距離
+                    .attr("transform", "rotate(-90)")
+                    .attr("text-anchor", "middle")
+                    .text("Fertility Rate (%)");
 
                 // 繪製折線
                 const path = svg.append("path")
@@ -219,7 +238,7 @@
                         tooltip.transition()
                             .duration(200)
                             .style("opacity", .9);
-                        tooltip.html(`Year: ${d.year.getFullYear()}<br>Fertility: ${d.fertility.toFixed(2)}`)
+                        tooltip.html(`Year: ${d.year.getFullYear()}<br>Fertility Rate: ${d.fertility.toFixed(2)} %`)
                             .style("left", `${event.pageX}px`)
                             .style("top", `${event.pageY - 76}px`);
                     })
@@ -277,22 +296,22 @@
                             <h3>Visualization Narrative</h3>
                             <p class="lead">The project follows the Martini Glass narrative visualization structure.
                                 This is the final scene of the visualization story, where the user can explore
-                                reader-driven content and draw independent conclusions. A selectable line graph
-                                representing worldwide fertility is provided. By default, the line graph shows the
+                                reader-driven content and draw independent conclusions. A selectable line chart
+                                representing worldwide fertility rate is provided. By default, the line chart shows the
                                 fertility rate of the world from 1980 to 2022.
                             </p>
                             <p class="lead">
-                                This selectable line chart is built with the D3.js library.
+                                This country selectable line chart is built with the D3.js library.
                             </p>
                             <h3>User Interface Events</h3>
                             <p class="lead">The buttons in the navigation bar enable user interface events. Users
                                 interact by clicking on the menu items to navigate to different parts of the story.
-                                Mouse hover events in the line graph display additional data details. Clicking allows
+                                Mouse hover events in the line chart display additional data details. Clicking allows
                                 users to select a specific country and view its fertility rate over the past forty
                                 years.
                             </p>
                             <p class="lead">
-                                Users are presented with a selection bar above the line graph, allowing them to display
+                                Users are presented with a selection bar above the line chart, allowing them to display
                                 the fertility rate for different countries.
 
                                 The mouse hover event on the node point displays a tooltip containing additional
@@ -300,11 +319,14 @@
                             </p>
                             <p class="lead">
                                 Clicking on the selection bar expands the section list. Once users click on a country
-                                name, the line graph automatically refreshes and displays the new line for the selected
+                                name, the line chart automatically refreshes and displays the new line for the selected
                                 country with a smooth animation.
                             </p>
-                            <h3>Annotations 還沒完成</h3>
-                            <p class="lead">還沒寫
+                            <h3>Annotations</h3>
+                            <p class="lead">The annotation is represented by the tooltip when the mouse hovers over
+                                different points on the line. The labels along the X and Y axes provide additional
+                                annotations for the chart. Last but not least, the selection bar represents the current
+                                country that the user has selected.
                             </p>
                             <h3>Triggers</h3>
                             <p class="lead">
@@ -324,10 +346,11 @@
                             <h3>Parameters</h3>
                             <p class="lead">
                                 The fertility rate data is read from CSV.<br>
-                                On page load, the line graph shows the data of the world's average fertility by default.
+                                On page load, the line chart shows the data of the world's average fertility by default.
                                 If users click on a country in selection list, javascript
-                                function receives "Country_Name" and "Country_Code" as input paramters, and refreshes line
-                                graph with the data for the requested country.
+                                function receives "Country_Name" and "Country_Code" as input paramters, and refreshes
+                                line
+                                chart with the data for the requested country.
                             </p>
                             <p class="lead">
                                 This section is hyper linked to the previous and home section. The name of the target
