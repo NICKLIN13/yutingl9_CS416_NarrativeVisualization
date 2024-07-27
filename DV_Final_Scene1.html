@@ -45,7 +45,7 @@
     </style>
 </head>
 
-<body style="padding-top: 70px">
+<body style="padding-top: 70px; padding-bottom: 50px;">
     <nav class="navbar navbar-light bg-light fixed-top">
         <div class="container style=" padding-bottom: 10px;">
             <a class="navbar-brand" href="#">CS416 - Final Project</a>
@@ -341,7 +341,7 @@
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        About the Visualization, Scene1
+                        About the Visualization, Scene 1
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
@@ -350,7 +350,7 @@
                         <div class="panel" style="text-align: justify;">
                             <h3>Visualization Narrative</h3>
                             <p class="lead">The project utilizes the Martini Glass narrative visualization structure.
-                                The Home page serves as the foundation, guiding users through author-driven content.
+                                Scene1 serves as the foundation, guiding users through author-driven content.
                                 Following this, scene3 acts as a "jumping off point," directing users to the final page.
                                 This final page emphasizes reader-driven content, enabling users to draw their own
                                 conclusions.
@@ -361,43 +361,33 @@
                                 annotations, and parameters specific to that page.
                             </p>
                             <h3>User Interface Events</h3>
-                            <p class="lead">The navigation bar and the Previous and Next buttons at the bottom of
-                                the page activate user interface events. Users can click these buttons or menu items to
+                            <p class="lead">The navigation bar activates user interface events. Users can click these
+                                menu items to
                                 move through different parts of the story. Additionally, hovering the mouse over
                                 elements is another type of user interface event. This hover event helps position
-                                tooltips correctly. As the mouse moves from one bar to another, changes in the X and Y
-                                positions cause the previous bar to return to its original color while the new bar
+                                tooltips correctly. As the mouse moves from one bar to another, the previous bar returns
+                                to its original color while the new bar
                                 changes color accordingly.
                             </p>
                             <h3>Annotations</h3>
                             <p class="lead">The annotations include a legend located at the top-right of the second
                                 chart and a tooltip that appears when hovering over different bars in both charts. The
-                                legend, along
-                                with the labels on the X and Y axes, offers further annotations.
+                                legend, along with the labels on the X and Y axes, offers further annotations.
                             </p>
                             <h3>Triggers</h3>
                             <p class="lead">Mouse clicks serve as trigger events for navigation, while mouse hover
                                 (mouseover) events trigger tooltips in the bar chart. The highlighted navigation bar
-                                items and the colored buttons with icons offer visual cues to indicate user action
-                                triggers.
+                                items offer visual cues to indicate user action triggers.
                             </p>
                             <p class="lead">
-                                Users can expand the About the Visualization section by clicking on the + icon. Once
+                                Users can expand the About the Visualization section by clicking on the downward arrow icon. Once
                                 expanded, the downward arrow icon changes to a upward arrow icon, which users can click
                                 to collapse the section.
                             </p>
                             <h3>Parameters</h3>
-                            <p class="lead">This section is hyperlinked to the next one, with the name of the target
-                                section passed as an input parameter to the buttons and navigation bar items.
-                            </p>
-
-                            <p class="lead">The charts in this and next two scenes are rendered through Vega library.
-                                Vega
-                                is a declarative language and entire chart including data is defined as a JSON object.
-                                The data for the chart is passed as a JSON object to
-                                Vega API function for rendering axis,bars and tooltips for the chart. The JSON object is
-                                stored seperately in the <strong>overallpoverty.json</strong>
-                                file under data folder.
+                            <p class="lead">This section is hyperlinked to the next, with the name of the target
+                                section passed as an input parameter to navigation bar items.
+                                The charts in these scenes are rendered through D3.js library.
                             </p>
                         </div>
                     </div>

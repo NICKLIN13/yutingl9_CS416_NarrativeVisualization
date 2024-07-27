@@ -45,7 +45,7 @@
     </style>
 </head>
 
-<body style="padding-top: 70px">
+<body style="padding-top: 70px; padding-bottom: 50px;">
     <nav class="navbar navbar-light bg-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">CS416 - Final Project</a>
@@ -391,7 +391,7 @@
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        About the Visualization, Home Page
+                        About the Visualization, Scene 3
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
@@ -399,76 +399,32 @@
                     <div class="accordion-body">
                         <div class="panel">
                             <h3>Visualization Narrative</h3>
-                            <p class="lead">The project follows the <strong>Martini Glass</strong> narrative
-                                visualization
-                                structure.
-                                The <strong>Home page</strong> represents the base of the visualization structure. The
-                                user
-                                is being exposed
-                                to the author driven content and will be led through two additional scenes representing
-                                stem. The Scene3
-                                page is the "jumping off point" and leads user to the final page.
-                                Final page contains reader driven content and it allows users to draw their own
-                                conclusions.
-                            </p>
-                            <p class="lead">
-                                Each page/scence contains <strong>About the Visualization </strong> section at the
-                                bottom of
-                                the page.
-                                User can learn more about the user interface events, triggers, annotations and paramters
-                                for
-                                that particular page.
+                            <p class="lead">The project follows the Martini Glass narrative visualization structure.
+                                This page represents the "jumping off point" of the visualization. After experiencing
+                                author-driven content, users are now ready for reader-driven content. By clicking the
+                                last navigation bar item, users will be taken to the final scene, where they can
+                                interact with the data and draw their own conclusions.
                             </p>
                             <h3>User Interface Events</h3>
-                            <p class="lead">The menu items in the navigation bar and the Prev, Next button
-                                at the bottom of this page enable the User Interface events.
-                                User interacts by clicking on the button or menu items to navigate to various part of
-                                this
-                                story.
-                                The mouse hover is another user interface event. The hover event allows proper
-                                positioning
-                                of the tooltip.
-                                As mouse moves from one bar to another, changes in X and Y position causes opacity to
-                                revert back to its original state in the previous bar and change in the new bar.
+                            <p class="lead">The buttons in the top navigation bar enable user interface events. Users
+                                can interact by clicking on the menu items to navigate to different parts of the story.
+                                Mouse hover events in the bar charts reveal additional data details.
                             </p>
                             <h3>Annotations</h3>
-                            <p class="lead">The annotation is represented by the legend on the top-right of the chart
-                                and a
-                                tooltip when mouse is hovered over different bars in the chart.
-                                The legend and labels along the X and Y axis provides additional annotations for the
-                                chart.
+                            <p class="lead">Both charts feature tooltips that appear when the user hovers the mouse over
+                                the charts. The legend and labels along the X and Y axes provide additional annotations.
                             </p>
                             <h3>Triggers</h3>
-                            <p class="lead">The mouse click acts as a trigger event for navigation.
-                                The mouse hover (mouseover) event is a trigger for the tooltip in the bar chart.
-                                The highlighted items in the navigation bar and colored buttons with
-                                icons provide visual clues about the user actions triggers to the user.
-                            </p>
-                            <p class="lead">
-                                User can expand the <strong>About the Visualization </strong> section by clicking on the
-                                +
-                                icon. Once the section is expanded,
-                                the + icon changes to - icon. User can click the - icon to collapse the section.
+                            <p class="lead">Mouse click and hover actions trigger events. Hovering activates tooltips
+                                and changes the opacity of the nearest bar. Moving the mouse reverts the previous bar's
+                                opacity and changes the new bar's opacity. The mouse's X and Y positions determine
+                                tooltip placement and opacity adjustments.
                             </p>
                             <h3>Parameters</h3>
-                            <p class="lead">This section is hyper linked to the next section. The name of the target
-                                section
-                                is passed
-                                as an input paramter to the buttons and items in the navigation bar.
+                            <p class="lead">This section is hyperlinked to the next, with the name of the target
+                                section passed as an input parameter to navigation bar items.
+                                The charts in these scenes are rendered through D3.js library.
                             </p>
-
-                            <p class="lead">The charts in this and next two scenes are rendered through Vega library.
-                                Vega
-                                is a declarative language and entire chart including data is defined as a JSON object.
-                                The data for the chart is passed as a JSON object to
-                                Vega API function for rendering axis,bars and tooltips for the chart. The JSON object is
-                                stored seperately in the <strong>overallpoverty.json</strong>
-                                file under data folder.
-                            </p>
-                            <strong>Note </strong>This website is compatible with Chrome, Safari and Firefox browsers.
-                            This
-                            site was not tested on Internet Explorer.
-                            If you are on Windows, please use a Chrome or Firefox browser.
                         </div>
                     </div>
                 </div>
