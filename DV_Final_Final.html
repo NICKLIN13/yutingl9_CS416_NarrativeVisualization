@@ -240,6 +240,25 @@
         }).catch(error => {
             console.error("Error loading or processing data:", error);
         });
+
+
+        // 提示使用者目前頁面
+        document.addEventListener("DOMContentLoaded", function () {
+            // 檢查目前頁面的 URL
+            const currentUrl = window.location.href;
+
+            // 拿到所有navbar的連結
+            const navLinks = document.querySelectorAll('.navbar-brand');
+
+            // 遍歷navbar，找到當前的，並把他改成active的css
+            navLinks.forEach(link => {
+                if (currentUrl.includes(link.getAttribute('href'))) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+
     </script>
 
     <div class="container mt-4">
@@ -254,7 +273,7 @@
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <div class="panel">
+                        <div class="panel" style="text-align: justify;">
                             <h3>Visualization Narrative</h3>
                             <p class="lead">The project follows the <strong>Martini Glass</strong> narrative
                                 visualization
