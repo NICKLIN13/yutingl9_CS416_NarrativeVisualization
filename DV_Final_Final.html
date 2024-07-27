@@ -212,16 +212,16 @@
                     .data(countryData.values)
                     .enter().append("circle")
                     .attr("class", "dot")
-                    .attr("r", 4)
+                    .attr("r", 4.5)
                     .attr("cx", d => x(d.year))
                     .attr("cy", d => y(d.fertility))
                     .on("mouseover", (event, d) => {
                         tooltip.transition()
                             .duration(200)
                             .style("opacity", .9);
-                        tooltip.html(`Year: ${d.year.getFullYear()}<br>Fertility: ${d.fertility}`)
-                            .style("left", `${event.pageX + 5}px`)
-                            .style("top", `${event.pageY - 28}px`);
+                        tooltip.html(`Year: ${d.year.getFullYear()}<br>Fertility: ${d.fertility.toFixed(2)}`)
+                            .style("left", `${event.pageX}px`)
+                            .style("top", `${event.pageY - 76}px`);
                     })
                     .on("mouseout", () => {
                         tooltip.transition()
