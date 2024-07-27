@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+        </script>
+    <link href="css/global.css" rel="stylesheet">
+
+
+    <title>CS416 Final Project</title>
+    <style>
+        .land {
+            stroke: #333;
+            stroke-width: 0.5px;
+        }
+
+        .boundary {
+            fill: none;
+            stroke: #333;
+            stroke-width: 0.5px;
+        }
+    </style>
+</head>
+
+<body style="padding-top: 70px;">
+    <nav class="navbar navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">CS416 - Final Project</a>
+            <a class="navbar-brand" id="scene0" href="DV_Final_Scene1.html">Scene1</a>
+            <a class="navbar-brand" id="scene1" href="DV_Final_Scene2.html">Scene2</a>
+            <a class="navbar-brand" id="scene2" href="DV_Final_Scene3.html">Scene3</a>
+            <a class="navbar-brand" id="scene3" href="DV_Final_Final.html">Final</a>
+
+            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="stem.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="second.html">Scene2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="jumpoff.html">Scene3</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="final2.html">Final</a>
+                    </li>
+                </ul>
+            </div> -->
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-with-border">
+            <h1>Factors Contributing to Low Birth Rate in Taiwan</h1>
+        </div>
+    </div>
+
+    <!-- 引入D3地理庫 -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
+
+    <script>
+        const width = 1850;
+        const height = 500;
+
+        const svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const projection = d3.geoMercator()
+            .scale(150)
+            .translate([width / 2, height / 2]); // 調整這裡將地圖移到中央
+
+        const path = d3.geoPath().projection(projection);
+
+        const color = d3.scaleOrdinal(d3.schemeSet2);
+
+        d3.json("https://unpkg.com/world-atlas@1/world/110m.json").then(function (world) {
+            svg.append("g")
+                .selectAll("path")
+                .data(topojson.feature(world, world.objects.countries).features)
+                .enter().append("path")
+                .attr("d", path)
+                .attr("class", "land")
+                .attr("fill", (d, i) => color(i));
+
+            svg.append("path")
+                .datum(topojson.mesh(world, world.objects.countries, (a, b) => a !== b))
+                .attr("d", path)
+                .attr("class", "boundary");
+        });
+
+
+
+        // 提示使用者目前頁面
+        document.addEventListener("DOMContentLoaded", function () {
+            // 檢查目前頁面的 URL
+            const currentUrl = window.location.href;
+
+            // 拿到所有navbar的連結
+            const navLinks = document.querySelectorAll('.navbar-brand');
+
+            // 遍歷navbar，找到當前的，並把他改成active的css
+            navLinks.forEach(link => {
+                if (currentUrl.includes(link.getAttribute('href'))) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

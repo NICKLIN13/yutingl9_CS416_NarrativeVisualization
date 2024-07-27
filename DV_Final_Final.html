@@ -9,27 +9,53 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
         </script>
-
     <link href="css/global.css" rel="stylesheet">
-
 
     <title>CS416 Final Project</title>
     <style>
-        .bar {
-            fill: steelblue;
+        .chart {
+            margin: 20px;
         }
 
-        .bar:hover {
-            fill:rgba(84, 161, 187, 0.538)
+        .axis path,
+        .axis line {
+            fill: none;
+            shape-rendering: crispEdges;
+        }
+
+        .line {
+            fill: none;
+            stroke: rgba(253, 119, 24, 0.912);
+            stroke-width: 4px;
+            stroke-dasharray: 1000;
+            /* 初始的虛線長度 */
+            stroke-dashoffset: 1000;
+            /* 初始時的虛線偏移量 */
+        }
+
+        .dot {
+            fill: rgb(39, 126, 198);
         }
 
         .axis-label {
-            font: 12px sans-serif;
+            font-size: 12px;
+        }
+
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            padding: 5px;
+            font-size: 17px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            pointer-events: none;
+            opacity: 0;
         }
     </style>
 </head>
 
-<body style="padding-top: 70px">
+<body style="padding-top: 70px;">
     <nav class="navbar navbar-light bg-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">CS416 - Final Project</a>
@@ -63,128 +89,157 @@
 
     <div class="container">
         <div class="header-with-border">
-            <h1>Factors Contributing to Low Birth Rate in Taiwan</h1>
+            <h1>Fertility Data Line Chart</h1>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <h4 style="text-align: center;">Spouses in Marriages</h4>
-                <div id="chart"></div>
-            </div>
-        </div>
+        <label for="country-select">Select Country:</label>
+        <select id="country-select">
+            <option value="">--Select a country-- (Default: World)</option>
+        </select>
     </div>
 
-    <div id="tooltip" style="position: absolute; opacity: 0;"></div>
+    <div class="chart">
+        <svg width="1360" height="500"></svg>
+    </div>
+    <div class="tooltip"></div>
 
-    <!-- 引入 D3.js 库 -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <script>
-        // 设置图表的尺寸
-        const margin = { top: 20, right: 110, bottom: 40, left: 80 };
-        const width = 700 - margin.left - margin.right;
-        const height = 400 - margin.top - margin.bottom;
+        // 設置畫布大小和邊距
+        const margin = { top: 20, right: 30, bottom: 30, left: 280 };
+        const width = 1660 - margin.left - margin.right;
+        const height = 500 - margin.top - margin.bottom;
 
-        // 创建 SVG 元素
-        const svg = d3.select("#chart")
-            .append("svg")
+        // 創建 SVG 畫布
+        const svg = d3.select("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        const tooltip = d3.select("#tooltip");
+        // 創建 x 和 y 軸的比例尺
+        const x = d3.scaleTime().range([0, width]);
+        const y = d3.scaleLinear().domain([0, 8.0]).range([height, 0]); // 設置 y 軸範圍
 
-        // 从 CSV 文件加载数据
-        d3.csv("/CSV_data/結婚對數.csv").then(data => {
-            // 转换数据类型
-            data.forEach(d => {
-                d.value = +d.value;
+        // 創建折線生成器
+        const line = d3.line()
+            .x(d => x(d.year))
+            .y(d => y(d.fertility));
+
+        // 創建 tooltip
+        const tooltip = d3.select(".tooltip");
+
+        // 讀取 CSV 數據
+        d3.csv("/CSV_data/世界總生育人數.csv").then(data => {
+            // 格式化數據
+            const years = d3.range(1980, 2023);
+            const formattedData = data.map(d => ({
+                country: d.Country_Name,
+                code: d.Country_Code,
+                values: years.map(year => ({
+                    year: new Date(year, 0, 1),
+                    fertility: +d[year]
+                }))
+            }));
+
+            // 創建國家選擇下拉選單
+            const select = d3.select("#country-select");
+            select
+                .selectAll("option")
+                .data(formattedData)
+                .enter()
+                .append("option")
+                .attr("value", d => d.code)
+                .text(d => d.country);
+
+            // 繪製折線圖的函數
+            function drawChart(countryCode) {
+                const countryData = formattedData.find(d => d.code === countryCode);
+
+                if (!countryData) return;
+
+                // 設置 x 軸範圍
+                x.domain(d3.extent(countryData.values, d => d.year));
+
+                // 清除以前的圖表
+                svg.selectAll(".line").remove();
+                svg.selectAll(".x-axis").remove();
+                svg.selectAll(".y-axis").remove();
+                svg.selectAll(".dot").remove(); // 清除舊的點
+
+                // 繪製 x 和 y 軸
+                svg.append("g")
+                    .attr("class", "x-axis axis")
+                    .attr("transform", `translate(0,${height})`)
+                    .call(d3.axisBottom(x).ticks(d3.timeYear.every(1)))
+                    .append("text")
+                    .attr("class", "axis-label")
+                    .attr("x", width)
+                    .attr("y", -10)
+                    .style("text-anchor", "end")
+                    .text("Year");
+
+                svg.append("g")
+                    .attr("class", "y-axis axis")
+                    .call(d3.axisLeft(y))
+                    .append("text")
+                    .attr("class", "axis-label")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("Fertility");
+
+                // 繪製折線
+                const path = svg.append("path")
+                    .datum(countryData.values)
+                    .attr("class", "line")
+                    .attr("d", line)
+                    .style("stroke-dasharray", function () {
+                        const length = this.getTotalLength();
+                        return `${length} ${length}`;
+                    })
+                    .style("stroke-dashoffset", function () {
+                        return this.getTotalLength();
+                    });
+
+                // 添加動畫效果
+                path.transition()
+                    .duration(2000)  // 動畫持續時間（毫秒）
+                    .style("stroke-dashoffset", 0);  // 使折線逐漸顯現
+
+                // 添加點和 tooltip 功能
+                svg.selectAll(".dot")
+                    .data(countryData.values)
+                    .enter().append("circle")
+                    .attr("class", "dot")
+                    .attr("r", 4)
+                    .attr("cx", d => x(d.year))
+                    .attr("cy", d => y(d.fertility))
+                    .on("mouseover", (event, d) => {
+                        tooltip.transition()
+                            .duration(200)
+                            .style("opacity", .9);
+                        tooltip.html(`Year: ${d.year.getFullYear()}<br>Fertility: ${d.fertility}`)
+                            .style("left", `${event.pageX + 5}px`)
+                            .style("top", `${event.pageY - 28}px`);
+                    })
+                    .on("mouseout", () => {
+                        tooltip.transition()
+                            .duration(500)
+                            .style("opacity", 0);
+                    });
+            }
+
+            // 初始化圖表顯示
+            drawChart(formattedData[248].code);
+
+            // 更新圖表根據選擇的國家
+            d3.select("#country-select").on("change", function () {
+                drawChart(this.value);
             });
-
-            // 设置 x 轴和 y 轴的范围
-            const x = d3.scaleBand()
-                .domain(data.map(d => d.name))
-                .range([0, width])
-                .padding(0.1);
-
-            const y = d3.scaleLinear()
-                .domain([0, d3.max(data, d => d.value)])
-                .nice()
-                .range([height, 0]);
-
-            // 添加 x 轴
-            svg.append("g")
-                .attr("class", "x-axis")
-                .attr("transform", `translate(0,${height})`)
-                .call(d3.axisBottom(x));
-
-
-            // x 軸標籤
-            svg.append("text")
-                .attr("class", "axis-label")
-                .attr("x", width / 2)
-                .attr("y", height + margin.bottom)  // 增加與 y 轴的距離
-                .attr("text-anchor", "middle")
-                .text("Year");
-
-            // 添加 y 轴
-            svg.append("g")
-                .attr("class", "y-axis")
-                .call(d3.axisLeft(y));
-
-
-            // y 軸標籤
-            svg.append("text")
-                .attr("class", "axis-label")
-                .attr("x", -height / 2)
-                .attr("y", -margin.left + 20)  // 增加與 y 轴的距離
-                .attr("transform", "rotate(-90)")
-                .attr("text-anchor", "middle")
-                .text("Pairs");
-
-            // 绘制柱状图
-            svg.selectAll(".bar")
-                .data(data)
-                .enter().append("rect")
-                .attr("class", "bar")
-                .attr("x", d => x(d.name))
-                .attr("y", d => y(d.value))
-                .attr("width", x.bandwidth())
-                .attr("height", d => height - y(d.value))
-                .on("mouseover", (event, d) => {
-                    tooltip.transition().duration(200).style("opacity", .9);
-                    tooltip.html(`Year: ${d.name}<br>Pairs: ${d.value}`)
-                        .style("left", (event.pageX + 5) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mousemove", (event, d) => {
-                    tooltip.style("left", (event.pageX + 5) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mouseout", () => {
-                    tooltip.transition().duration(500).style("opacity", 0);
-                });
         }).catch(error => {
-            console.error('Error loading the CSV file:', error);
+            console.error("Error loading or processing data:", error);
         });
-
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            // 檢查目前頁面的 URL
-            const currentUrl = window.location.href;
-
-            // 拿到所有navbar的連結
-            const navLinks = document.querySelectorAll('.navbar-brand');
-
-            // 遍歷navbar，找到當前的，並把他改成active的css
-            navLinks.forEach(link => {
-                if (currentUrl.includes(link.getAttribute('href'))) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
     </script>
 
     <div class="container mt-4">
@@ -277,15 +332,16 @@
             </div>
         </div>
     </div>
+
     <footer class="footer text-center">
         <div class="container">
             <p class="text-muted"></p>
             <strong>Author <a href="https://www.linkedin.com/in/yuting-nick-lin/" target="_blank">YuTing
                     Lin</a></strong>
-            <br><p>©️All rights reserved</p>
+            <br>
+            <p>©️All rights reserved</p>
         </div>
     </footer>
-
 </body>
 
 </html>

@@ -16,12 +16,19 @@
     <title>CS416 Final Project</title>
     <style>
         .bar {
-            fill: steelblue;
+            fill: rgba(145, 119, 86, 0.867);
         }
 
         .bar:hover {
-            /* fill: orange; */
-            fill:rgba(84, 161, 187, 0.538)
+            fill: rgba(161, 133, 94, 0.653);
+        }
+
+        .bar_green {
+            fill: rgba(11, 144, 11, 0.801);
+        }
+
+        .bar_green:hover {
+            fill: rgba(5, 189, 5, 0.592);
         }
 
         .bar_red {
@@ -42,10 +49,10 @@
     <nav class="navbar navbar-light bg-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">CS416 - Final Project</a>
-            <a class="navbar-brand" id="scene0" href="DV_Final_home.html">Scene0</a>
-            <a class="navbar-brand" id="scene1" href="DV_Final_Scene1.html">Scene1</a>
-            <a class="navbar-brand" id="scene2" href="DV_Final_Scene2.html">Scene2</a>
-            <a class="navbar-brand" id="scene3" href="DV_Final_Scene3.html">Scene3</a>
+            <a class="navbar-brand" id="scene0" href="DV_Final_Scene1.html">Scene1</a>
+            <a class="navbar-brand" id="scene1" href="DV_Final_Scene2.html">Scene2</a>
+            <a class="navbar-brand" id="scene2" href="DV_Final_Scene3.html">Scene3</a>
+            <a class="navbar-brand" id="scene3" href="DV_Final_Final.html">Final</a>
 
             <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,28 +79,33 @@
 
     <div class="container">
         <div class="header-with-border">
-            <h1>Income, Investment preferences and Birth rate in Taiwan</h1>
+            <h1>Factors Contributing to Low Birth Rate in Taiwan</h1>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h4 style="text-align: center;">Birth rate</h4>
+                <h4 style="text-align: center;">Disposable Income per Household</h4>
                 <div id="chart"></div>
+            </div>
+            <div class="col-md-6">
+                <h4 style="text-align: center;">Birth Rate</h4>
+                <div id="chart2"></div>
             </div>
         </div>
     </div>
 
+    <!-- tooltip容器 -->
     <div id="tooltip" style="position: absolute; opacity: 0;"></div>
 
     <!-- 引入 D3.js 库 -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
     <script>
-        // 设置图表的尺寸
-        const margin = { top: 20, right: 30, bottom: 40, left: 80 };
+        // 設置圖表的尺寸
+        const margin = { top: 20, right: 120, bottom: 40, left: 70 };
         const width = 700 - margin.left - margin.right;
         const height = 400 - margin.top - margin.bottom;
 
-        // 创建 SVG 元素
+        // 創建 SVG 元素
         const svg = d3.select("#chart")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -101,11 +113,12 @@
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
+
         const tooltip = d3.select("#tooltip");
 
-        // 从 CSV 文件加载数据
-        d3.csv("/CSV_data/出生人數.csv").then(data => {
-            // 转换数据类型
+        // 從 CSV 文件加載數據
+        d3.csv("/CSV_data/每戶可支配所得.csv").then(data => {
+            // 轉換數據類型
             data.forEach(d => {
                 d.value = +d.value;
             });
@@ -121,12 +134,11 @@
                 .nice()
                 .range([height, 0]);
 
-            // 添加 x 轴
+            // 添加 x 軸
             svg.append("g")
                 .attr("class", "x-axis")
                 .attr("transform", `translate(0,${height})`)
                 .call(d3.axisBottom(x));
-
 
             // x 軸標籤
             svg.append("text")
@@ -136,8 +148,7 @@
                 .attr("text-anchor", "middle")
                 .text("Year");
 
-
-            // 添加 y 轴
+            // 添加 y 軸
             svg.append("g")
                 .attr("class", "y-axis")
                 .call(d3.axisLeft(y));
@@ -147,22 +158,22 @@
             svg.append("text")
                 .attr("class", "axis-label")
                 .attr("x", -height / 2)
-                .attr("y", -margin.left + 20)  // 增加與 y 轴的距離
+                .attr("y", -margin.left + 10)  // 增加與 y 轴的距離
                 .attr("transform", "rotate(-90)")
                 .attr("text-anchor", "middle")
-                .text("Persons");
+                .text("TWD");
 
             // 添加黑色虛線
             svg.append("line")
                 .attr("x1", 0)
-                .attr("y1", y(200000))
+                .attr("y1", y(1000000))
                 .attr("x2", width)
-                .attr("y2", y(200000))
+                .attr("y2", y(1000000))
                 .attr("stroke", "black")
                 .attr("stroke-width", 2)
                 .attr("stroke-dasharray", "4");
 
-            // 绘制柱状图
+            // 繪製柱狀圖
             svg.selectAll(".bar")
                 .data(data)
                 .enter().append("rect")
@@ -171,10 +182,10 @@
                 .attr("y", d => y(d.value))
                 .attr("width", x.bandwidth())
                 .attr("height", d => height - y(d.value))
-                .attr("class", d => d.value < 200000 ? "bar_red" : "bar")
+                .attr("class", d => d.value > 1000000 ? "bar_green" : "bar")
                 .on("mouseover", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", .9);
-                    tooltip.html(`Year: ${d.name}<br>Persons: ${d.value}`)
+                    tooltip.html(`Year: ${d.name}<br>TWD: ${d.value}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
@@ -184,18 +195,178 @@
                 })
                 .on("mouseout", () => {
                     tooltip.transition().duration(500).style("opacity", 0);
-                });
+                })
 
             // 確保柱狀圖不會覆蓋掉虛線
             svg.selectAll(".bar").lower();
-            svg.selectAll(".bar_red").lower();
 
         }).catch(error => {
             console.error('Error loading the CSV file:', error);
         });
 
 
+        // 添加圖例
+        const legend = svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${width - margin.right + 120}, ${margin.top})`);
 
+        // 綠色圖例
+        legend.append("circle")
+            .attr("cx", 10)
+            .attr("cy", 10)
+            .attr("r", 5)
+            .attr("fill", "rgba(11, 144, 11, 0.801)");
+
+        legend.append("text")
+            .attr("x", 20)
+            .attr("y", 10)
+            .attr("dy", "0.35em")
+            .text("Upper-mid");
+
+        // 棕色圖例
+        legend.append("circle")
+            .attr("cx", 10)
+            .attr("cy", 30)
+            .attr("r", 5)
+            .attr("fill", "rgba(145, 119, 86, 0.867)");
+
+        legend.append("text")
+            .attr("x", 20)
+            .attr("y", 30)
+            .attr("dy", "0.35em")
+            .text("Lower-mid");
+
+
+
+
+        // 第二張圖表
+        const margin2 = { top: 20, right: 120, bottom: 40, left: 100 };
+        const width2 = 700 - margin2.left - margin2.right;
+        const height2 = 400 - margin2.top - margin2.bottom;
+
+        const svg2 = d3.select("#chart2")
+            .append("svg")
+            .attr("width", width2 + margin2.left + margin2.right)
+            .attr("height", height2 + margin2.top + margin2.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin2.left},${margin2.top})`);
+
+        const tooltip2 = d3.select("#tooltip");
+
+        d3.csv("/CSV_data/出生人數.csv").then(data => {
+            data.forEach(d => {
+                d.value = +d.value;
+            });
+
+            const x2 = d3.scaleBand()
+                .domain(data.map(d => d.name))
+                .range([0, width2])
+                .padding(0.1);
+
+            const y2 = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.value)])
+                .nice()
+                .range([height2, 0]);
+
+            svg2.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(0,${height2})`)
+                .call(d3.axisBottom(x2));
+
+            // x 軸標籤
+            svg2.append("text")
+                .attr("class", "axis-label")
+                .attr("x", width2 / 2)
+                .attr("y", height2 + margin2.bottom)
+                .attr("text-anchor", "middle")
+                .text("Year");
+
+            svg2.append("g")
+                .attr("class", "y-axis")
+                .call(d3.axisLeft(y2));
+
+            // y 軸標籤
+            svg2.append("text")
+                .attr("class", "axis-label")
+                .attr("x", -height2 / 2)
+                .attr("y", -margin2.left + 45)  // 增加與 y 轴的距離
+                .attr("transform", "rotate(-90)")
+                .attr("text-anchor", "middle")
+                .text("Persons");
+
+
+            // 添加黑色虛線
+            svg2.append("line")
+                .attr("x1", 0)
+                .attr("y1", y2(200000))
+                .attr("x2", width2)
+                .attr("y2", y2(200000))
+                .attr("stroke", "black")
+                .attr("stroke-width", 2)
+                .attr("stroke-dasharray", "4");
+
+            svg2.selectAll(".bar_bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar_blue")
+                .attr("x", d => x2(d.name))
+                .attr("y", d => y2(d.value))
+                .attr("width", x2.bandwidth())
+                .attr("height", d => height2 - y2(d.value))
+                .attr("class", d => d.value > 200000 ? "bar_green" : "bar_red")
+                .on("mouseover", (event, d) => {
+                    tooltip2.transition().duration(200).style("opacity", .9);
+                    tooltip2.html(`Year: ${d.name}<br>Persons: ${d.value}`)
+                        .style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mousemove", (event, d) => {
+                    tooltip2.style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", () => {
+                    tooltip2.transition().duration(500).style("opacity", 0);
+                });
+
+            // 確保柱狀圖不會覆蓋掉虛線
+            svg2.selectAll(".bar_blue").lower();
+
+        }).catch(error => {
+            console.error('Error loading the CSV file:', error);
+        });
+
+        // 添加圖例
+        const legend2 = svg2.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${width2 + 8}, ${margin.top})`);
+
+        // 綠色圖例
+        legend2.append("circle")
+            .attr("cx", 10)
+            .attr("cy", 10)
+            .attr("r", 5)
+            .attr("fill", "rgba(11, 144, 11, 0.801)");
+
+        legend2.append("text")
+            .attr("x", 20)
+            .attr("y", 10)
+            .attr("dy", "0.35em")
+            .text("Above 200k");
+
+        // 棕色圖例
+        legend2.append("circle")
+            .attr("cx", 10)
+            .attr("cy", 30)
+            .attr("r", 5)
+            .attr("fill", "red");
+
+        legend2.append("text")
+            .attr("x", 20)
+            .attr("y", 30)
+            .attr("dy", "0.35em")
+            .text("Below 200k");
+
+        // 提示使用者目前頁面
         document.addEventListener("DOMContentLoaded", function () {
             // 檢查目前頁面的 URL
             const currentUrl = window.location.href;
@@ -210,6 +381,7 @@
                 }
             });
         });
+
 
     </script>
 
@@ -312,6 +484,7 @@
             <p>©️All rights reserved</p>
         </div>
     </footer>
+
 </body>
 
 </html>

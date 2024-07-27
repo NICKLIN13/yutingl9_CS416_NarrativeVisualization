@@ -16,11 +16,27 @@
     <title>CS416 Final Project</title>
     <style>
         .bar {
-            fill: steelblue;
+            fill: rgba(145, 119, 86, 0.867);
         }
 
         .bar:hover {
-            fill:rgba(84, 161, 187, 0.538)
+            fill: rgba(161, 133, 94, 0.653);
+        }
+
+        .bar_blue {
+            fill: steelblue
+        }
+
+        .bar_blue:hover {
+            fill: rgba(84, 161, 187, 0.538)
+        }
+
+        .bar_green {
+            fill: rgba(11, 144, 11, 0.801);
+        }
+
+        .bar_green:hover {
+            fill: rgba(5, 189, 5, 0.592);
         }
 
         .axis-label {
@@ -31,12 +47,12 @@
 
 <body style="padding-top: 70px">
     <nav class="navbar navbar-light bg-light fixed-top">
-        <div class="container">
+        <div class="container style=" padding-bottom: 10px;">
             <a class="navbar-brand" href="#">CS416 - Final Project</a>
-            <a class="navbar-brand" id="scene0" href="DV_Final_home.html">Scene0</a>
-            <a class="navbar-brand" id="scene1" href="DV_Final_Scene1.html">Scene1</a>
-            <a class="navbar-brand" id="scene2" href="DV_Final_Scene2.html">Scene2</a>
-            <a class="navbar-brand" id="scene3" href="DV_Final_Scene3.html">Scene3</a>
+            <a class="navbar-brand" id="scene0" href="DV_Final_Scene1.html">Scene1</a>
+            <a class="navbar-brand" id="scene1" href="DV_Final_Scene2.html">Scene2</a>
+            <a class="navbar-brand" id="scene2" href="DV_Final_Scene3.html">Scene3</a>
+            <a class="navbar-brand" id="scene3" href="DV_Final_Final.html">Final</a>
 
             <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,26 +77,31 @@
         </div>
     </nav>
 
+    <div id="tooltip" style="position: absolute; opacity: 0;"></div>
+
     <div class="container">
         <div class="header-with-border">
-            <h1>Income, Investment preferences and Birth rate in Taiwan</h1>
+            <h1>Factors Contributing to Low Birth Rate in Taiwan</h1>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h4 style="text-align: center;">結婚對數</h4>
+                <h4 style="text-align: center;">Individual Average Income (Annual)</h4>
                 <div id="chart"></div>
+            </div>
+            <div class="col-md-6">
+                <h4 style="text-align: center;">College Enrollment Rate</h4>
+                <div id="chart2"></div>
+                <p>雖然收入往上，但也因為高學歷的關係，更容易產生”不想被婚姻綁住，更不願意生小孩來降低生活品質“的這種想法</p>
             </div>
         </div>
     </div>
-
-    <div id="tooltip" style="position: absolute; opacity: 0;"></div>
 
     <!-- 引入 D3.js 库 -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
     <script>
         // 设置图表的尺寸
-        const margin = { top: 20, right: 30, bottom: 40, left: 80 };
+        const margin = { top: 20, right: 110, bottom: 40, left: 70 };
         const width = 700 - margin.left - margin.right;
         const height = 400 - margin.top - margin.bottom;
 
@@ -95,7 +116,7 @@
         const tooltip = d3.select("#tooltip");
 
         // 从 CSV 文件加载数据
-        d3.csv("/CSV_data/結婚對數.csv").then(data => {
+        d3.csv("/CSV_data/AverageIncome.csv").then(data => {
             // 转换数据类型
             data.forEach(d => {
                 d.value = +d.value;
@@ -118,7 +139,6 @@
                 .attr("transform", `translate(0,${height})`)
                 .call(d3.axisBottom(x));
 
-
             // x 軸標籤
             svg.append("text")
                 .attr("class", "axis-label")
@@ -132,28 +152,27 @@
                 .attr("class", "y-axis")
                 .call(d3.axisLeft(y));
 
-
             // y 軸標籤
             svg.append("text")
                 .attr("class", "axis-label")
                 .attr("x", -height / 2)
-                .attr("y", -margin.left + 20)  // 增加與 y 轴的距離
+                .attr("y", -margin.left + 10)  // 增加與 y 轴的距離
                 .attr("transform", "rotate(-90)")
                 .attr("text-anchor", "middle")
-                .text("Pairs");
+                .text("TWD");
 
             // 绘制柱状图
             svg.selectAll(".bar")
                 .data(data)
                 .enter().append("rect")
-                .attr("class", "bar")
+                .attr("class", "bar_blue")
                 .attr("x", d => x(d.name))
                 .attr("y", d => y(d.value))
                 .attr("width", x.bandwidth())
                 .attr("height", d => height - y(d.value))
                 .on("mouseover", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", .9);
-                    tooltip.html(`Year: ${d.name}<br>Pairs: ${d.value}`)
+                    tooltip.html(`Year: ${d.name}<br>TWD: ${d.value}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
@@ -169,7 +188,136 @@
         });
 
 
+        // 第二張圖表
+        const margin2 = { top: 20, right: 110, bottom: 40, left: 70 };
+        const width2 = 700 - margin2.left - margin2.right;
+        const height2 = 400 - margin2.top - margin2.bottom;
 
+        const svg2 = d3.select("#chart2")
+            .append("svg")
+            .attr("width", width2 + margin2.left + margin2.right)
+            .attr("height", height2 + margin2.top + margin2.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin2.left},${margin2.top})`);
+
+        const tooltip2 = d3.select("#tooltip");
+
+        d3.csv("/CSV_data/高等教育升學率.csv").then(data => {
+            data.forEach(d => {
+                d.value = +d.value;
+            });
+
+            const x2 = d3.scaleBand()
+                .domain(data.map(d => d.name))
+                .range([0, width2])
+                .padding(0.1);
+
+            const y2 = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.value)])
+                .nice()
+                .range([height2, 0]);
+
+            svg2.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(0,${height2})`)
+                .call(d3.axisBottom(x2));
+
+            // x 軸標籤
+            svg2.append("text")
+                .attr("class", "axis-label")
+                .attr("x", width2 / 2)
+                .attr("y", height2 + margin2.bottom)
+                .attr("text-anchor", "middle")
+                .text("Year");
+
+            svg2.append("g")
+                .attr("class", "y-axis")
+                .call(d3.axisLeft(y2));
+
+            // y 軸標籤
+            svg2.append("text")
+                .attr("class", "axis-label")
+                .attr("x", -height2 / 2)
+                .attr("y", -margin2.left + 35)  // 增加與 y 轴的距離
+                .attr("transform", "rotate(-90)")
+                .attr("text-anchor", "middle")
+                .text("Rate (%)");
+
+
+            // 添加黑色虛線
+            svg2.append("line")
+                .attr("x1", 0)
+                .attr("y1", y2(95))
+                .attr("x2", width2)
+                .attr("y2", y2(95))
+                .attr("stroke", "black")
+                .attr("stroke-width", 2)
+                .attr("stroke-dasharray", "4");
+
+            svg2.selectAll(".bar_bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar_blue")
+                .attr("x", d => x2(d.name))
+                .attr("y", d => y2(d.value))
+                .attr("width", x2.bandwidth())
+                .attr("height", d => height2 - y2(d.value))
+                .attr("class", d => d.value > 95 ? "bar_green" : "bar")
+                .on("mouseover", (event, d) => {
+                    tooltip2.transition().duration(200).style("opacity", .9);
+                    tooltip2.html(`Year: ${d.name}<br>Rate: ${d.value} %`)
+                        .style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mousemove", (event, d) => {
+                    tooltip2.style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", () => {
+                    tooltip2.transition().duration(500).style("opacity", 0);
+                });
+
+            // 確保柱狀圖不會覆蓋掉虛線
+            svg2.selectAll(".bar_blue").lower();
+
+        }).catch(error => {
+            console.error('Error loading the CSV file:', error);
+        });
+
+        // 添加圖例
+        const legend = svg2.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${width2 + 8}, ${margin.top})`);
+
+        // 綠色圖例
+        legend.append("circle")
+            .attr("cx", 10)
+            .attr("cy", 10)
+            .attr("r", 5)
+            .attr("fill", "rgba(11, 144, 11, 0.801)");
+
+        legend.append("text")
+            .attr("x", 20)
+            .attr("y", 10)
+            .attr("dy", "0.35em")
+            .text("Above 95%");
+
+        // 棕色圖例
+        legend.append("circle")
+            .attr("cx", 10)
+            .attr("cy", 30)
+            .attr("r", 5)
+            .attr("fill", "rgba(145, 119, 86, 0.867)");
+
+        legend.append("text")
+            .attr("x", 20)
+            .attr("y", 30)
+            .attr("dy", "0.35em")
+            .text("Below 95%");
+
+
+
+        // 提示目前的所在頁面
         document.addEventListener("DOMContentLoaded", function () {
             // 檢查目前頁面的 URL
             const currentUrl = window.location.href;
@@ -193,70 +341,54 @@
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        About the Visualization, Home Page
+                        About the Visualization, Scene1
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <div class="panel">
+                        <div class="panel" style="text-align: justify;">
                             <h3>Visualization Narrative</h3>
-                            <p class="lead">The project follows the <strong>Martini Glass</strong> narrative
-                                visualization
-                                structure.
-                                The <strong>Home page</strong> represents the base of the visualization structure. The
-                                user
-                                is being exposed
-                                to the author driven content and will be led through two additional scenes representing
-                                stem. The Scene3
-                                page is the "jumping off point" and leads user to the final page.
-                                Final page contains reader driven content and it allows users to draw their own
+                            <p class="lead">The project utilizes the Martini Glass narrative visualization structure.
+                                The Home page serves as the foundation, guiding users through author-driven content.
+                                Following this, scene3 acts as a "jumping off point," directing users to the final page.
+                                This final page emphasizes reader-driven content, enabling users to draw their own
                                 conclusions.
                             </p>
                             <p class="lead">
-                                Each page/scence contains <strong>About the Visualization </strong> section at the
-                                bottom of
-                                the page.
-                                User can learn more about the user interface events, triggers, annotations and paramters
-                                for
-                                that particular page.
+                                At the bottom of each scene, there's an "About" section. Here,
+                                users can find detailed information about the user interface events, triggers,
+                                annotations, and parameters specific to that page.
                             </p>
                             <h3>User Interface Events</h3>
-                            <p class="lead">The menu items in the navigation bar and the Prev, Next button
-                                at the bottom of this page enable the User Interface events.
-                                User interacts by clicking on the button or menu items to navigate to various part of
-                                this
-                                story.
-                                The mouse hover is another user interface event. The hover event allows proper
-                                positioning
-                                of the tooltip.
-                                As mouse moves from one bar to another, changes in X and Y position causes opacity to
-                                revert back to its original state in the previous bar and change in the new bar.
+                            <p class="lead">The navigation bar and the Previous and Next buttons at the bottom of
+                                the page activate user interface events. Users can click these buttons or menu items to
+                                move through different parts of the story. Additionally, hovering the mouse over
+                                elements is another type of user interface event. This hover event helps position
+                                tooltips correctly. As the mouse moves from one bar to another, changes in the X and Y
+                                positions cause the previous bar to return to its original color while the new bar
+                                changes color accordingly.
                             </p>
                             <h3>Annotations</h3>
-                            <p class="lead">The annotation is represented by the legend on the top-right of the chart
-                                and a
-                                tooltip when mouse is hovered over different bars in the chart.
-                                The legend and labels along the X and Y axis provides additional annotations for the
-                                chart.
+                            <p class="lead">The annotations include a legend located at the top-right of the second
+                                chart and a tooltip that appears when hovering over different bars in both charts. The
+                                legend, along
+                                with the labels on the X and Y axes, offers further annotations.
                             </p>
                             <h3>Triggers</h3>
-                            <p class="lead">The mouse click acts as a trigger event for navigation.
-                                The mouse hover (mouseover) event is a trigger for the tooltip in the bar chart.
-                                The highlighted items in the navigation bar and colored buttons with
-                                icons provide visual clues about the user actions triggers to the user.
+                            <p class="lead">Mouse clicks serve as trigger events for navigation, while mouse hover
+                                (mouseover) events trigger tooltips in the bar chart. The highlighted navigation bar
+                                items and the colored buttons with icons offer visual cues to indicate user action
+                                triggers.
                             </p>
                             <p class="lead">
-                                User can expand the <strong>About the Visualization </strong> section by clicking on the
-                                +
-                                icon. Once the section is expanded,
-                                the + icon changes to - icon. User can click the - icon to collapse the section.
+                                Users can expand the About the Visualization section by clicking on the + icon. Once
+                                expanded, the downward arrow icon changes to a upward arrow icon, which users can click
+                                to collapse the section.
                             </p>
                             <h3>Parameters</h3>
-                            <p class="lead">This section is hyper linked to the next section. The name of the target
-                                section
-                                is passed
-                                as an input paramter to the buttons and items in the navigation bar.
+                            <p class="lead">This section is hyperlinked to the next one, with the name of the target
+                                section passed as an input parameter to the buttons and navigation bar items.
                             </p>
 
                             <p class="lead">The charts in this and next two scenes are rendered through Vega library.
@@ -267,24 +399,23 @@
                                 stored seperately in the <strong>overallpoverty.json</strong>
                                 file under data folder.
                             </p>
-                            <strong>Note </strong>This website is compatible with Chrome, Safari and Firefox browsers.
-                            This
-                            site was not tested on Internet Explorer.
-                            If you are on Windows, please use a Chrome or Firefox browser.
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <footer class="footer text-center">
         <div class="container">
             <p class="text-muted"></p>
             <strong>Author <a href="https://www.linkedin.com/in/yuting-nick-lin/" target="_blank">YuTing
                     Lin</a></strong>
-            <br><p>©️All rights reserved</p>
+            <br>
+            <p>©️All rights reserved</p>
         </div>
     </footer>
+
 
 </body>
 
