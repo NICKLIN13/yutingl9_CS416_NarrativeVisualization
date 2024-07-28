@@ -73,11 +73,13 @@
             <div class="col-md-6" style="display: flex; flex-direction: column; justify-content: center;">
                 <p style="font-size: 18px;">
                     However, the number of marriages has continued to decline slightly over the past decade.
-                    Therefore, we can infer that people with higher education are less likely to want to be tied down by marriage and children.
+                    Therefore, we can infer that people with higher education are less likely to want to be tied down by
+                    marriage and children.
                 </p>
-                <p style="font-size: 18px; margin-top: 25px;">So, what about the economic conditions of families who are married? 
+                <p style="font-size: 18px; margin-top: 25px;">So, what about the economic conditions of families who are
+                    married?
                     Does spending increase after marriage, leading to a reduction in disposable income...?
-                </h5>
+                    </h5>
             </div>
         </div>
         <div style="margin-top: 20px;">
@@ -206,52 +208,119 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        About the Visualization, Scene 2
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
+                        style="font-size: 20px;">
+                        About the Visualization
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="panel" style="text-align: justify;">
-                            <h3>Visualization Narrative</h3>
-                            <p class="lead">This page forms the base of the Martini Glass narrative visualization
-                                structure, where users are engaging with author-driven content. The Scene3 link in the
-                                navigation bar will guide users to the "jumping off point." The final page features
-                                reader-driven content, enabling users to interact with the data and form their own
-                                conclusions.
+                            <h3>Messaging</h3>
+                            <p style="font-size: 18px;">
+                                This project aims to lead users to consider the possible factors contributing to low
+                                fertility rates in Taiwan and even worldwide. It starts by examining one possible
+                                factor: the high level of education. Following this, it explores individual income and,
+                                furthermore, the disposable income per household. At the end, it guides users to draw
+                                their own conclusions by offering a worldwide fertility rates chart, allowing them to
+                                explore data from various countries.
                             </p>
 
-                            <h3>User Interface Events</h3>
-                            <p class="lead">The navigation buttons at the top represent the User Interface events.
-                                User interacts by clicking on the menu items to navigate to various part of this
-                                visualzation story.
-                                The hover event allows proper positioning of the tooltip.
+                            <h3>Narrative Structure</h3>
+                            <p style="font-size: 18px;">
+                                This project utilizes Martini Glass narrative visualization structure, containing 4
+                                scenes. Scene1 serves as the foundation, guiding users through author-driven content.
+                                Scene2 provides more details. Following this, scene3 acts as a "jumping off point,"
+                                directing users to the final page. The final page emphasizes reader-driven content,
+                                enabling users to draw their own conclusions in the end.
+                            </p>
+                            <p style="font-size: 18px;">
+                                At the bottom of each scene, there's an "About" section. Here, users can find detailed
+                                information about the user interface events, triggers, annotations, and parameters
+                                specific to that page.
+                            </p>
+                            <h3>Visual Structure</h3>
+                            <p style="font-size: 18px;">
+                                From Scene 1 to Scene 3, bar charts are used, with a fixed navigation bar at the top of
+                                the page. Since there are no other navigation buttons, users can only explore the pages
+                                in the order intended by the author.
+                            </p>
+                            <p style="font-size: 18px;">
+                                In the final scene, a selectable line chart is provided, with instructions displayed
+                                next to the selection bar to encourage users to explore additional information. Last but
+                                not least, at the second half of the page, every page contains an “About” section
+                                providing additional description.
+
+                            </p>
+                            <h3>Scenes</h3>
+                            <p style="font-size: 18px;">
+                                Scenes are simply named Scene1, Scene2, Scene3, and Final for easy understanding. Each
+                                contains 1-2 charts with a "Note" tag guiding users to explore further below. Users can
+                                navigate back and forth using the navbar items at the top of the page. The navigation
+                                bar item that the users are currently visiting is set to be bold, helping users know
+                                which page they are on and avoiding confusion. Scenes were arranged in an order that
+                                maximizes their persuasive power in terms of storytelling.
                             </p>
                             <h3>Annotations</h3>
-                            <p class="lead">The annotation is represented by the legend on the top-right of the chart
-                                and a tooltip when mouse is hovered over different bars in the chart.
-                                The labels along the X and Y axis provide clear annotations for the
-                                chart.
+                            <p style="font-size: 18px;">
+                                The template followed for the annotations is a combination of tooltips, axis labels,
+                                legends, and dashed line, because they effectively balance clarity and interactivity.
+                                When the user hovers over different points on the bars or the line graph, tooltips
+                                appear, displaying detailed information about that specific year. This approach provides
+                                on-demand, context-specific information without cluttering the visualization.
+                            </p>
+                            <p style="font-size: 18px;">
+                                The labels along the X and Y axes provide essential contextual information respectively.
+                                These labels help users understand the scale and units of measurement immediately.
+                                The legends are displayed at the top-right of some bar charts with various colored bars
+                                to help users quickly understand the meaning of different colors.
+                                The dashed line, as an annotation as well, in the chart highlights a specific indicator
+                                that readers can notice.
+
                             </p>
                             <h3>Triggers</h3>
-                            <p class="lead">The mouse click event on the navigation bar triggers back and forward
-                                navigation within this visualization presentation. The mouse hover (mouseover) event
-                                activates the tooltip in the bar chart. When the mouse hovers over a bar, it changes the
-                                opacity of the nearest bar. As the mouse moves from one bar to another, the opacity of
-                                the previous bar reverts to its original state, while the new bar's opacity changes.
+                            <p style="font-size: 18px;">
+                                Mouse click and hover events are the triggers for most pages. Clicking on the navigation
+                                buttons at the top facilitates back-and-forth navigation. Clicking also causes the chart
+                                to display the fertility rate line on the final page, removing the line of the
+                                previously selected country and showing the line for the newly selected one. Hovering
+                                over elements triggers the rendering of tooltips, presenting additional details to users
+                                in every chart. As the mouse moves from one bar to another, the previous bar returns
+                                to its original color while the new bar
+                                changes color accordingly.
+                            </p>
+                            <p style="font-size: 18px;">
+                                Users can expand the "About the Visualization" section by clicking on the downward arrow
+                                icon. Once
+                                expanded, the downward arrow icon changes to a upward arrow icon, which users can click
+                                to collapse the section.
                             </p>
                             <h3>Parameters</h3>
-                            <p class="lead">This section is hyperlinked to the next section. The name of the target
-                                section is passed as an input parameter to the buttons and items in the navigation bar.
-                                The charts in these scenes are rendered through D3.js library.
+                            <p style="font-size: 18px;">
+                                Parameters refer to the variables that can be controlled within the narrative
+                                visualization, such as data points in data sets. For instance, the fertility rate data
+                                in final page is read from a csv data. On page load, the line chart shows the data of
+                                the world's average fertility by default. If users click on a country in selection list,
+                                JavaScript function receives "Country_Name" and "Country_Code" as input parameters, and
+                                refreshes line chart with the data for the requested country.
                             </p>
+                            <p style="font-size: 18px;">
+                                Every section is hyper linked to the previous / next and home section. The name of the
+                                target section is passed as an input parameter to navigation bar items as well.
+                            </p>
+                            <div style="padding-top: 30px;">
+                                <p style="font-size: 15px;">
+                                    Note: The charts in these scenes are rendered through D3.js library.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <footer class="footer text-center">
         <div class="container">
             <p class="text-muted"></p>
