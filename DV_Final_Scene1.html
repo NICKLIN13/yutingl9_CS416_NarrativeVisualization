@@ -133,7 +133,7 @@
         const tooltip = d3.select("#tooltip");
 
         // 將 csv 資料導入
-        d3.csv("/CSV_data/AverageIncome.csv").then(data => {
+        d3.csv("./CSV_data/AverageIncome.csv").then(data => {
             // 轉換資料類型
             data.forEach(d => {
                 d.value = +d.value;
