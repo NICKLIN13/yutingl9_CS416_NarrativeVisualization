@@ -219,7 +219,7 @@
 
         const tooltip2 = d3.select("#tooltip");
 
-        d3.csv("/CSV_data/高等教育升學率.csv").then(data => {
+        d3.csv("/CSV_data/CollegeEnrollmentRate.csv").then(data => {
             data.forEach(d => {
                 d.value = +d.value;
             });

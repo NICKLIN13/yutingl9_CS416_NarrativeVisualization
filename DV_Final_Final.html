@@ -130,7 +130,7 @@
         const tooltip = d3.select(".tooltip");
 
         // 讀取 CSV 數據
-        d3.csv("/CSV_data/世界總生育人數.csv").then(data => {
+        d3.csv("/CSV_data/WorldwideFertilityRateData.csv").then(data => {
             // 格式化數據
             const years = d3.range(1980, 2023);
             const formattedData = data.map(d => ({

@@ -135,7 +135,7 @@
         const tooltip = d3.select("#tooltip");
 
         // 將 CSV 資料導入
-        d3.csv("/CSV_data/每戶可支配所得.csv").then(data => {
+        d3.csv("/CSV_data/DisposableIncomePerHousehold.csv").then(data => {
             // 轉換數據類型
             data.forEach(d => {
                 d.value = +d.value;
@@ -271,7 +271,7 @@
 
         const tooltip2 = d3.select("#tooltip");
 
-        d3.csv("/CSV_data/出生人數.csv").then(data => {
+        d3.csv("/CSV_data/Fertility.csv").then(data => {
             data.forEach(d => {
                 d.value = +d.value;
             });

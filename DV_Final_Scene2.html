@@ -111,7 +111,7 @@
         const tooltip = d3.select("#tooltip");
 
         // 將 CSV 資料導入
-        d3.csv("/CSV_data/結婚對數.csv").then(data => {
+        d3.csv("/CSV_data/SpousesInMarriages.csv").then(data => {
             // 转换数据类型
             data.forEach(d => {
                 d.value = +d.value;
