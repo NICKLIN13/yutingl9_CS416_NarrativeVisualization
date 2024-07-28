@@ -109,18 +109,18 @@
         const width = 1660 - margin.left - margin.right;
         const height = 500 - margin.top - margin.bottom;
 
-        // 創建 SVG 畫布
+        // 新增 SVG 元素
         const svg = d3.select("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom + 20)
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        // 創建 x 和 y 軸的比例尺
+        // 新增 x 和 y 軸的比例尺
         const x = d3.scaleTime().range([0, width]);
         const y = d3.scaleLinear().domain([0, 8.0]).range([height, 0]); // 設置 y 軸範圍
 
-        // 創建折線生成器
+        // 新增折線生成器
         const line = d3.line()
             .x(d => x(d.year))
             .y(d => y(d.fertility));
@@ -141,7 +141,7 @@
                 }))
             }));
 
-            // 創建國家選擇下拉選單
+            // 新增國家選擇下拉選單
             const select = d3.select("#country-select");
             select
                 .selectAll("option")
@@ -183,7 +183,7 @@
                 svg.append("text")
                     .attr("class", "axis-label")
                     .attr("x", width / 2)
-                    .attr("y", height + margin.bottom + 10)  // 增加與 x 轴的距離
+                    .attr("y", height + margin.bottom + 10)  // 增加與 x 軸的距離
                     .attr("text-anchor", "middle")
                     .text("Year");
 
@@ -203,7 +203,7 @@
                 svg.append("text")
                     .attr("class", "axis-label")
                     .attr("x", -height / 2)
-                    .attr("y", -margin.left + 250)  // 增加與 y 轴的距離
+                    .attr("y", -margin.left + 250)  // 增加與 y 軸的距離
                     .attr("transform", "rotate(-90)")
                     .attr("text-anchor", "middle")
                     .text("Fertility Rate (%)");

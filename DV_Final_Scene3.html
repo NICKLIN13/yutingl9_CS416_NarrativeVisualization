@@ -114,7 +114,7 @@
     <!-- tooltip容器 -->
     <div id="tooltip" style="position: absolute; opacity: 0;"></div>
 
-    <!-- 引入 D3.js 库 -->
+    <!-- 導入 D3.js Library -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
     <script>
@@ -123,7 +123,7 @@
         const width = 700 - margin.left - margin.right;
         const height = 400 - margin.top - margin.bottom;
 
-        // 創建 SVG 元素
+        // 新增 SVG 元素
         const svg = d3.select("#chart")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -134,14 +134,14 @@
 
         const tooltip = d3.select("#tooltip");
 
-        // 從 CSV 文件加載數據
+        // 將 CSV 資料導入
         d3.csv("/CSV_data/每戶可支配所得.csv").then(data => {
             // 轉換數據類型
             data.forEach(d => {
                 d.value = +d.value;
             });
 
-            // 设置 x 轴和 y 轴的范围
+            // 設置 x 軸和 y 軸的範圍
             const x = d3.scaleBand()
                 .domain(data.map(d => d.name))
                 .range([0, width])
@@ -162,7 +162,7 @@
             svg.append("text")
                 .attr("class", "axis-label")
                 .attr("x", width / 2)
-                .attr("y", height + margin.bottom)  // 增加與 y 轴的距離
+                .attr("y", height + margin.bottom)  // 增加與 x 軸的距離
                 .attr("text-anchor", "middle")
                 .text("Year");
 
@@ -176,7 +176,7 @@
             svg.append("text")
                 .attr("class", "axis-label")
                 .attr("x", -height / 2)
-                .attr("y", -margin.left + 10)  // 增加與 y 轴的距離
+                .attr("y", -margin.left + 10)  // 增加與 y 軸的距離
                 .attr("transform", "rotate(-90)")
                 .attr("text-anchor", "middle")
                 .text("TWD");
@@ -307,7 +307,7 @@
             svg2.append("text")
                 .attr("class", "axis-label")
                 .attr("x", -height2 / 2)
-                .attr("y", -margin2.left + 45)  // 增加與 y 轴的距離
+                .attr("y", -margin2.left + 45)  // 增加與 y 軸的距離
                 .attr("transform", "rotate(-90)")
                 .attr("text-anchor", "middle")
                 .text("Persons");
